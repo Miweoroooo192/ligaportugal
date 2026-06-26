@@ -1,0 +1,260 @@
+/* SIMULADOR DA LIGA PORTUGUESA v1.0
+- podes simular jogos
+- podes ver a evolução dos clubes
+- podes mudar o código
+Coisas para fazer:
+- aquela coisa de salvar o jogo (fazendo)
+- fazer uma versão de "football manager" (não feito)
+- fazer um "port" para c++ e rust (fazendo)
+- fazer uma sistema de jogos mais complexo (vou fazer em 2030 kkkk)
+- publicar para o github (feito)
+*/
+
+
+const readline = require('readline');
+const fs = require('fs');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+/* Ainda não é disponivel para 1.0
+try {
+    ficho = JSON.parse(fs.readFileSync("simulacao.json"))
+    
+    tmz = new Date(ficho.toje)
+    console.log(tmz)
+} catch (error) {
+    
+}
+*/
+// POW inicial das equipas
+let POW = { SLBenficaPOW: 10, SportingCPPOW: 10, FCPortoPOW: 10, BragaPOW: 9, GilVicentePOW: 8, FamalicaoPOW: 7.5, MoreirensePOW: 7.5, EstorilPOW: 7, VitoriaSCPOW: 8.5, AlvercaPOW: 7, AroucaPOW: 7, EstrelaAmadoraPOW: 7, CasaPiaPOW: 6.5, NacionalPOW: 7.5, SantaClaraPOW: 6.5, RioAvePOW: 6.5, TondelaPOW: 6, AVSPOW: 5.5 };
+let pontos = { };
+let saldogols = { };
+
+let liga2POW = { AcademicoViseuPOW: 6.5, MaritimoPOW: 6.5, VizelaPOW: 6, TorreensePOW: 6, VitoriaFCPOW: 6, UniaoLeiriaPOW: 6, MafraPOW: 5, LourosaPOW: 5.5, ChavesPOW: 5.5, FeirensePOW: 5.5, AcademicaPOW: 4.5, LeixoesPOW: 5.5, FelgueirasPOW: 5, PacosFerreiraPOW: 5, PenafielPOW: 5, FarensePOW: 5, OliveirensePOW: 4.5, PortimonensePOW: 4.5, BelenensesPOW: 4 };
+let liga2Pontos = {};
+let liga2saldogols = {};
+
+
+// Inicializar tabelas da Liga 2
+Object.keys(liga2POW).forEach(k => {
+    let nome = k.replace("POW", "");
+    liga2Pontos[nome] = 0;
+    liga2saldogols[nome] = 0;
+});
+// Inicializar tabelas da Liga 2
+Object.keys(POW).forEach(k => {
+    let nome = k.replace("POW", "");
+    pontos[nome] = 0;
+    saldogols[nome] = 0;
+});
+
+let liga1 = Object.keys(pontos);
+let liga2 = Object.keys(liga2Pontos);
+let ano = 2025;
+
+function taca() {
+    console.log(`\n--- TAÇA DE PORTUGAL ${ano}/${ano + 1} ---\n`)
+    let participantes = [...liga1, ...liga2];
+    
+    fase = 1
+    if (participantes.length > 32) {
+        console.log(`\n--- PRÉ-ELIMINATÓRIAS DA TAÇA ---\n`)
+        let partsis = participantes.length - 32
+        for (let i = 0; i < partsis; i++) {
+            
+            let p1 = participantes.pop(); 
+            let p2 = participantes.pop();
+            
+            
+            let gol1 = Math.floor(Math.random() * 4) + (liga2POW[p1 + "POW"] > liga2POW[p2 + "POW"] ? 1 : 0); // já que só equipas da segunda liga podem participar nos playoffs, metemos o POW da segunda liga
+            let gol2 = Math.floor(Math.random() * 4) + (liga2POW[p2 + "POW"] > liga2POW[p1 + "POW"] ? 1 : 0); // e sim, não há vantagem da casa
+            
+            if ( gol1 == gol2 ) { Math.random() > 0.5 ? gol1++ : gol2++; }
+            if (gol1 > gol2) {participantes.unshift(p1); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
+            else if (gol2 > gol1) { participantes.unshift(p2); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
+            
+            
+        
+    }
+        
+    while (participantes.length > 1) {
+        
+        let faseUAU = []; // Typescript FC 98-0 Tottenham Hotspur in 98 years
+        let fases = {32: "1ª Eliminatória", 16: "Oitavas de Final", 8: "Quartas de Final", 4: "Semi-finais", 2: "Final"} // O GRANDE VENCEDOOOOOOOR
+        let fasesfasosfaçoslaços = fases[participantes.length] || `${fase}ª Eliminatória`;
+        console.log(`\n--- ${fasesfasosfaçoslaços} (${participantes.length} equipas) ---`);
+        participantes.sort(() => Math.random() - 0.5);
+        while (participantes.length >= 2) {
+            let p1 = participantes.pop(); 
+            let p2 = participantes.pop();
+            let pow1 = POW[p1 + "POW"] || liga2POW[p1 + "POW"] || 6;
+            let pow2 = POW[p1 + "POW"] || liga2POW[p1 + "POW"] || 6;
+            
+            let gol1 = Math.floor(Math.random() * 4) + (pow1 > pow2 ? 3 : 0); // temos o cirstaione ronaldeopsa 910290838190
+            let gol2 = Math.floor(Math.random() * 4) + (pow2 > pow1 ? 2 : 0); // taçenfica
+            
+            if ( gol1 == gol2 ) { 
+                Math.random() > 0.5 ? gol1++ : gol2++; 
+            }
+            if (gol1 > gol2) {
+                faseUAU.push(p1);
+                console.log(`${p1} ${gol1} - ${gol2} ${p2}`);
+            }
+            else if (gol2 > gol1) {
+                faseUAU.push(p1);
+                console.log(`${p1} ${gol1} - ${gol2} ${p2}`);
+            }
+        }
+        participantes = faseUAU; // Tudo pode acontecer, milagres, sustos, TUDO. PQ É A TAAAAAAAAAAAÇÇÇÇÇÇÇAAAAAAAAAAAAAAAAAAAAAAAAAAAAA DE PORTUGALLLLLLLLLLLLLLL
+        fase++;
+        
+        }
+        
+    }
+}
+
+function tabela() {
+    let txt = `\n--- LIGA PORTUGAL ${ano}/${ano + 1} ---\n`;
+    const ordenado = Object.entries(pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]]);
+    ordenado.forEach((equipa, i) => {
+        let status = "";
+        if (i == 0) status = "[CAMPEÃO/UCL]"; // Marca o campeão
+        if (i == 1) status = "[Qualificação UCL]"; // Marca contra Real Madrid
+        if (i == 2) status = "[UEL]"; // Marca contra Real Madrid
+        if (i == 3) status = "[Qualificação UEL]"; // Marca contra Real Madrid
+        if (i == 4) status = "[Qualificação UECL]"; // Marca contra Real Madrid
+        if (i >= ordenado.length - 2) status = "[REBAIXADO]"; // Marca os 2 búúúúúúúúú
+        txt += `${(i + 1).toString().padStart(2, ' ')}. ${equipa[0].padEnd(15)} | Pts: ${equipa[1].toString().padStart(2, ' ')} | SG: ${saldogols[equipa[0]].toString().padStart(3, ' ')} ${status}\n`;
+    });
+    return { txt, ordenado };
+}
+
+function tabela2() {
+    let txt2 = `\n--- LIGA PORTUGAL 2 ${ano}/${ano + 1} ---\n`;
+    const ordenado2 = Object.entries(liga2Pontos).sort((a, b) => b[1] - a[1] || liga2saldogols[b[0]] - liga2saldogols[a[0]]);
+    ordenado2.forEach((equipa, i) => {
+        let status = i < 2 ? "[SUBIU]" : "";
+        txt2 += `${(i + 1).toString().padStart(2, ' ')}. ${equipa[0].padEnd(15)} | Pts: ${equipa[1].toString().padStart(2, ' ')} | SG: ${liga2saldogols[equipa[0]].toString().padStart(3, ' ')} ${status}\n`;
+    });
+    return { txt2, ordenado2 };
+}
+
+function rodarJornada(lista, ptsObj, sgObj, forcaObj) {
+    let jajogou = {};
+    lista.forEach(e => jajogou[e] = false);
+    let baralhado = [...lista].sort(() => Math.random() - 0.5);
+
+    while (baralhado.length >= 2) {
+        let p1 = baralhado.pop();
+        let p2 = baralhado.pop();
+
+        let gol1 = Math.floor(Math.random() * 4) + (forcaObj[p1 + "POW"] > forcaObj[p2 + "POW"] ? 2 : 0); // VANTAGANAAAAA
+        let gol2 = Math.floor(Math.random() * 4) + (forcaObj[p2 + "POW"] > forcaObj[p1 + "POW"] ? 1 : 0);
+
+        sgObj[p1] += (gol1 - gol2);
+        sgObj[p2] += (gol2 - gol1);
+
+        if (gol1 > gol2) ptsObj[p1] += 3;
+        else if (gol2 > gol1) ptsObj[p2] += 3;
+        else { ptsObj[p1] += 1; ptsObj[p2] += 1; }
+    }
+}
+
+function gerirSubidasEDescidas(ord1, ord2) {
+    console.log(`\n--- TRANSIÇÃO DE TEMPORADA ---`);
+    
+    // 1. Identificar quem sabe 🌚🌚🌚🌚
+    const rebaixados = [ord1[ord1.length - 1], ord1[ord1.length - 2]];
+    const promovidos = [ord2[0], ord2[1]];
+
+    // 2. Processar Rebaixados (Liga 1111111 -> Liga 2)
+    rebaixados.forEach(equipa => {
+        let nome = equipa[0]; // Extra o nome da equipa
+        let novoPow = Math.max(4, (POW[nome + "POW"] || 6) - 0.5);
+        delete pontos[nome]; delete saldogols[nome]; delete POW[nome + "POW"];
+        
+        
+        liga2Pontos[nome] = 0; liga2saldogols[nome] = 0; liga2POW[nome + "POW"] = novoPow;
+        console.log(`${nome} rebaixou.`);
+    });
+
+    // 3. Processar Promovidos (Liga 53 -> Liga 98)
+    promovidos.forEach(equipa => {
+        let nome = equipa[0]; // Extra o nome da equipa222223123123
+        let novoPow = liga2POW[nome + "POW"] || 6;
+        delete liga2Pontos[nome]; delete liga2saldogols[nome]; delete liga2POW[nome + "POW"];
+        
+        pontos[nome] = 0; saldogols[nome] = 0; POW[nome + "POW"] = novoPow;
+        console.log(`${nome} promoveu!`);
+    });
+
+    // Atualizar as listinhas
+    liga1 = Object.keys(pontos);
+    liga2 = Object.keys(liga2Pontos);
+}
+function mercado() {
+    liga1.forEach(e => {
+                pontos[e] = 0;
+                saldogols[e] = 0;
+                if (Math.random() > 0.7) {
+                    let alteracao = Math.random() > 0.5 ? 0.5 : -0.5;
+                    POW[e + "POW"] = Math.max(1, POW[e + "POW"] + alteracao);
+                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${POW[e + "POW"]})`);
+                }
+            });
+}
+function mercado2() {
+    liga2.forEach(e => {
+                liga2Pontos[e] = 0;
+                liga2saldogols[e] = 0;
+                if (Math.random() > 0.7) {
+                    let alteracao = Math.random() > 0.5 ? 0.5 : -0.5;
+                    liga2POW[e + "POW"] = Math.max(1, liga2POW[e + "POW"] + alteracao);
+                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${liga2POW[e + "POW"]})`);
+                }
+            });
+}
+function iniciarTemporada() {
+    // Reset de pontos no início do ano
+    liga1.forEach(e => { pontos[e] = 0; saldogols[e] = 0; });
+    liga2.forEach(e => { liga2Pontos[e] = 0; liga2saldogols[e] = 0; });
+
+    for (let i = 0; i < 34; i++) {
+        rodarJornada(liga1, pontos, saldogols, POW);
+        rodarJornada(liga2, liga2Pontos, liga2saldogols, liga2POW);
+    }
+
+    const { txt, ordenado } = tabela();
+    const { txt2, ordenado2 } = tabela2();
+    console.log(txt);
+    console.log(txt2);
+    taca();
+    rl.question('\n[1] Próxima Época | [2] Sair: ', (opcao) => {
+        /*if (opcao === '3') {
+            let toje = Date.now()
+            fs.writeFileSync('simulacao.json', JSON.stringify({ toje, pontos, POW, liga2Pontos, liga2POW }, null, 2));
+            console.log('Jogo salvo!');
+            iniciarTemporada();
+        }
+        if (opcao === '4') {
+            let toje = Date.now()
+            fs.writeFileSync('simulacao.json', JSON.stringify({ toje, pontos, POW, liga2Pontos, liga2POW }, null, 2));
+            console.log('Jogo salvo!');
+            rl.close()
+        }*/
+        if (opcao === '1') {
+            gerirSubidasEDescidas(ordenado, ordenado2);
+            ano++;
+            mercado()
+            mercado2()
+            iniciarTemporada();
+        } else {
+            rl.close();
+        }
+    });
+}
+
+iniciarTemporada();
