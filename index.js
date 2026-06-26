@@ -1,4 +1,4 @@
-/* SIMULADOR DA LIGA PORTUGUESA v1.0
+/* SIMULADOR DA LIGA PORTUGUESA v1.5
 - podes simular jogos
 - podes ver a evolução dos clubes
 - podes mudar o código
@@ -7,7 +7,6 @@ Coisas para fazer:
 - fazer uma versão de "football manager" (não feito)
 - fazer um "port" para c++ e rust (fazendo)
 - fazer uma sistema de jogos mais complexo (vou fazer em 2030 kkkk)
-- publicar para o github (feito)
 */
 
 
