@@ -36,7 +36,8 @@ let saldogols = { };
 let liga2POW = { AcademicoViseuPOW: 6.5, MaritimoPOW: 6.5, VizelaPOW: 6, TorreensePOW: 6, VitoriaFCPOW: 6, UniaoLeiriaPOW: 6, MafraPOW: 5, LourosaPOW: 5.5, ChavesPOW: 5.5, FeirensePOW: 5.5, AcademicaPOW: 4.5, LeixoesPOW: 5.5, FelgueirasPOW: 5, PacosFerreiraPOW: 5, PenafielPOW: 5, FarensePOW: 5, OliveirensePOW: 4.5, PortimonensePOW: 4.5, BelenensesPOW: 4 };
 let liga2Pontos = {};
 let liga2saldogols = {};
-
+let cupwin = "";
+let textthing = "";
 
 // Inicializar tabelas da Liga 2
 Object.keys(liga2POW).forEach(k => {
@@ -73,8 +74,8 @@ function taca() {
             let gol2 = Math.floor(Math.random() * 4) + (liga2POW[p2 + "POW"] > liga2POW[p1 + "POW"] ? 1 : 0); // e sim, não há vantagem da casa
             
             if ( gol1 == gol2 ) { Math.random() > 0.5 ? gol1++ : gol2++; }
-            if (gol1 > gol2) {participantes.unshift(p1); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
-            else if (gol2 > gol1) { participantes.unshift(p2); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
+            if (gol1 > gol2) {participantes.unshift(p2); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
+            else if (gol2 > gol1) { participantes.unshift(p1); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
             
             
         
@@ -91,10 +92,16 @@ function taca() {
             let p1 = participantes.pop(); 
             let p2 = participantes.pop();
             let pow1 = POW[p1 + "POW"] || liga2POW[p1 + "POW"] || 6;
-            let pow2 = POW[p1 + "POW"] || liga2POW[p1 + "POW"] || 6;
-            
-            let gol1 = Math.floor(Math.random() * 4) + (pow1 > pow2 ? 3 : 0); // temos o cirstaione ronaldeopsa 910290838190
-            let gol2 = Math.floor(Math.random() * 4) + (pow2 > pow1 ? 2 : 0); // taçenfica
+            let pow2 = POW[p2 + "POW"] || liga2POW[p2 + "POW"] || 6;
+            let adv1 = 0
+            let adv2 = 0
+            if (pow1 > pow2) {
+                adv1 = 3
+            } else if (pow2 > pow1) {
+                adv2 = 2
+            }
+            let gol1 = Math.floor(Math.random() * 4) + adv1; // temos o cirstaione ronaldeopsa 910290838190
+            let gol2 = Math.floor(Math.random() * 4) + adv2; // taçenfica
             
             if ( gol1 == gol2 ) { 
                 Math.random() > 0.5 ? gol1++ : gol2++; 
@@ -104,7 +111,7 @@ function taca() {
                 console.log(`${p1} ${gol1} - ${gol2} ${p2}`);
             }
             else if (gol2 > gol1) {
-                faseUAU.push(p1);
+                faseUAU.push(p2);
                 console.log(`${p1} ${gol1} - ${gol2} ${p2}`);
             }
         }
@@ -114,6 +121,8 @@ function taca() {
         }
         
     }
+    let cupwinner = participantes[0];
+    return cupwinner
 }
 
 function tabela() {
@@ -126,6 +135,7 @@ function tabela() {
         if (i == 2) status = "[UEL]"; // Marca contra Real Madrid
         if (i == 3) status = "[Qualificação UEL]"; // Marca contra Real Madrid
         if (i == 4) status = "[Qualificação UECL]"; // Marca contra Real Madrid
+        if (cupwin == equipa[0] && i >= 2) status = "[UEL]";
         if (i >= ordenado.length - 2) status = "[REBAIXADO]"; // Marca os 2 búúúúúúúúú
         txt += `${(i + 1).toString().padStart(2, ' ')}. ${equipa[0].padEnd(15)} | Pts: ${equipa[1].toString().padStart(2, ' ')} | SG: ${saldogols[equipa[0]].toString().padStart(3, ' ')} ${status}\n`;
     });
@@ -136,7 +146,9 @@ function tabela2() {
     let txt2 = `\n--- LIGA PORTUGAL 2 ${ano}/${ano + 1} ---\n`;
     const ordenado2 = Object.entries(liga2Pontos).sort((a, b) => b[1] - a[1] || liga2saldogols[b[0]] - liga2saldogols[a[0]]);
     ordenado2.forEach((equipa, i) => {
-        let status = i < 2 ? "[SUBIU]" : "";
+        let status = "";
+        if (i < 2) status = "[SUBIU]";
+        if (cupwin == equipa[0]) status = "[UEL]";
         txt2 += `${(i + 1).toString().padStart(2, ' ')}. ${equipa[0].padEnd(15)} | Pts: ${equipa[1].toString().padStart(2, ' ')} | SG: ${liga2saldogols[equipa[0]].toString().padStart(3, ' ')} ${status}\n`;
     });
     return { txt2, ordenado2 };
@@ -217,6 +229,26 @@ function mercado2() {
                 }
             });
 }
+function impossivel() {
+    let champion = Object.entries(pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]]);
+    let champ = champion[0][0]
+    if (POW[champ + "POW"] > 12) {
+        console.log("IMPOSSÍVEL! O " + champion[0][0].toUpperCase() + " GANHOU A LIGA DOS CAMPEÕES!")
+    }
+}
+function guardalistadoschamps() {
+    let champ1 = Object.entries(pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]])[0];
+    let champ2 = Object.entries(liga2Pontos).sort((a, b) => b[1] - a[1] || liga2saldogols[b[0]] - liga2saldogols[a[0]])[0];
+    
+    textthing += `${ano}/${ano + 1}:\nLIGA PORTUGAL: ${champ1[0]} foi campeão da primeira liga com ${champ1[1]} pontos.\nLIGA PORTUGAL 2: ${champ2[0]} foi campeão da segunda liga com ${champ2[1]} pontos.\nTAÇA DE PORTUGAL: ${cupwin} foi campeão da taça.\n`;
+    textthing += `------------------------------------\n`;
+
+}
+function listadoschamps() {
+    console.log(`\n--- LISTA DOS CAMPEÕES ---\n` + textthing);
+
+
+}
 function iniciarTemporada() {
     // Reset de pontos no início do ano
     liga1.forEach(e => { pontos[e] = 0; saldogols[e] = 0; });
@@ -226,20 +258,25 @@ function iniciarTemporada() {
         rodarJornada(liga1, pontos, saldogols, POW);
         rodarJornada(liga2, liga2Pontos, liga2saldogols, liga2POW);
     }
-
+    cupwin = taca();
     const { txt, ordenado } = tabela();
     const { txt2, ordenado2 } = tabela2();
     console.log(txt);
     console.log(txt2);
-    taca();
-    rl.question('\n[1] Próxima Época | [2] Sair: ', (opcao) => {
-        /*if (opcao === '3') {
+    console.log(cupwin + " ganhou a taça!")
+    let champ1 = Object.entries(pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]])[0];
+    let champ2 = Object.entries(liga2Pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]])[0];
+    impossivel()
+    guardalistadoschamps()
+
+    rl.question('\n[1] Próxima Época | [2] Ver a lista dos campeões | [3] Sair: ', (opcao) => {
+        /*if (opcao === '4') {
             let toje = Date.now()
             fs.writeFileSync('simulacao.json', JSON.stringify({ toje, pontos, POW, liga2Pontos, liga2POW }, null, 2));
             console.log('Jogo salvo!');
             iniciarTemporada();
         }
-        if (opcao === '4') {
+        if (opcao === '5') {
             let toje = Date.now()
             fs.writeFileSync('simulacao.json', JSON.stringify({ toje, pontos, POW, liga2Pontos, liga2POW }, null, 2));
             console.log('Jogo salvo!');
@@ -251,6 +288,22 @@ function iniciarTemporada() {
             mercado()
             mercado2()
             iniciarTemporada();
+            
+        } else if (opcao === '2') {
+            listadoschamps()
+            rl.question('\n[1] Próxima Época | [2] Sair: ', (opcao) => {
+            if (opcao === '1') {
+                
+                gerirSubidasEDescidas(ordenado, ordenado2);
+                ano++;
+                mercado()
+                mercado2()
+                iniciarTemporada();
+            } else {
+                rl.close()
+            }
+        })
+            
         } else {
             rl.close();
         }
