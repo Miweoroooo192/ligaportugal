@@ -30,13 +30,13 @@ try {
 // POW inicial das equipas
 let att = { SLBenficaPOW: 85, SportingCPPOW: 81, FCPortoPOW: 82, BragaPOW: 77, GilVicentePOW: 75, FamalicaoPOW: 68, MoreirensePOW: 64, EstorilPOW: 65, VitoriaSCPOW: 70, AlvercaPOW: 63, AroucaPOW: 60, EstrelaAmadoraPOW: 66, CasaPiaPOW: 63, NacionalPOW: 59, SantaClaraPOW: 67, RioAvePOW: 64, TondelaPOW: 59, AVSPOW: 54 };
 let def = { SLBenficaPOW: 87, SportingCPPOW: 77, FCPortoPOW: 79, BragaPOW: 72, GilVicentePOW: 70, FamalicaoPOW: 70, MoreirensePOW: 65, EstorilPOW: 62, VitoriaSCPOW: 64, AlvercaPOW: 65, AroucaPOW: 69, EstrelaAmadoraPOW: 59, CasaPiaPOW: 49, NacionalPOW: 60, SantaClaraPOW: 59, RioAvePOW: 57, TondelaPOW: 56, AVSPOW: 46 };
-let POW = { SLBenficaPOW: 10, SportingCPPOW: 10, FCPortoPOW: 10, BragaPOW: 9, GilVicentePOW: 8, FamalicaoPOW: 7.5, MoreirensePOW: 7.5, EstorilPOW: 7, VitoriaSCPOW: 8.5, AlvercaPOW: 7, AroucaPOW: 7, EstrelaAmadoraPOW: 7, CasaPiaPOW: 6.5, NacionalPOW: 7.5, SantaClaraPOW: 6.5, RioAvePOW: 6.5, TondelaPOW: 6, AVSPOW: 5.5 };
+
 let pontos = { };
 let saldogols = { };
 
 let liga2att = { AcademicoViseuPOW: 65, MaritimoPOW: 62, VizelaPOW: 60, TorreensePOW: 64, VitoriaFCPOW: 59, UniaoLeiriaPOW: 63, MafraPOW: 51, LourosaPOW: 58, ChavesPOW: 50, FeirensePOW: 54, AcademicaPOW: 51, LeixoesPOW: 53, FelgueirasPOW: 49, PacosFerreiraPOW: 47, PenafielPOW: 49, FarensePOW: 49, OliveirensePOW: 47, PortimonensePOW: 47, BelenensesPOW: 44 };
 let liga2def = { AcademicoViseuPOW: 62, MaritimoPOW: 59, VizelaPOW: 59, TorreensePOW: 56, VitoriaFCPOW: 55, UniaoLeiriaPOW: 60, MafraPOW: 54, LourosaPOW: 55, ChavesPOW: 59, FeirensePOW: 56, AcademicaPOW: 49, LeixoesPOW: 49, FelgueirasPOW: 45, PacosFerreiraPOW: 47, PenafielPOW: 51, FarensePOW: 47, OliveirensePOW: 43, PortimonensePOW: 41, BelenensesPOW: 40 };
-let liga2POW = { AcademicoViseuPOW: 6.5, MaritimoPOW: 6.5, VizelaPOW: 6, TorreensePOW: 6, VitoriaFCPOW: 6, UniaoLeiriaPOW: 6, MafraPOW: 5, LourosaPOW: 5.5, ChavesPOW: 5.5, FeirensePOW: 5.5, AcademicaPOW: 4.5, LeixoesPOW: 5.5, FelgueirasPOW: 5, PacosFerreiraPOW: 5, PenafielPOW: 5, FarensePOW: 5, OliveirensePOW: 4.5, PortimonensePOW: 4.5, BelenensesPOW: 4 };
+
 let liga2Pontos = {};
 let liga2saldogols = {};
 let cupwin = "";
@@ -73,8 +73,8 @@ function taca() {
             let p2 = participantes.pop();
             
             
-            let gol1 = Math.floor(Math.random() * 4) + (liga2POW[p1 + "POW"] > liga2POW[p2 + "POW"] ? 1 : 0); // já que só equipas da segunda liga podem participar nos playoffs, metemos o POW da segunda liga
-            let gol2 = Math.floor(Math.random() * 4) + (liga2POW[p2 + "POW"] > liga2POW[p1 + "POW"] ? 1 : 0); // e sim, não há vantagem da casa
+            let gol1 = Math.floor(Math.random() * 4) + (liga2att[p1 + "POW"] > liga2att[p2 + "POW"] ? 1 : 0); // já que só equipas da segunda liga podem participar nos playoffs, metemos o POW da segunda liga
+            let gol2 = Math.floor(Math.random() * 4) + (liga2att[p2 + "POW"] > liga2att[p1 + "POW"] ? 1 : 0); // e sim, não há vantagem da casa
             
             if ( gol1 == gol2 ) { Math.random() > 0.5 ? gol1++ : gol2++; }
             if (gol1 > gol2) {participantes.unshift(p2); console.log(`${p1} ${gol1} - ${gol2} ${p2}`);}
@@ -94,13 +94,13 @@ function taca() {
         while (participantes.length >= 2) {
             let p1 = participantes.pop(); 
             let p2 = participantes.pop();
-            let pow1 = POW[p1 + "POW"] || liga2POW[p1 + "POW"] || 6;
-            let pow2 = POW[p2 + "POW"] || liga2POW[p2 + "POW"] || 6;
+            let att1 = att[p1 + "POW"] || liga2att[p1 + "POW"] || 6;
+            let att2 = att[p2 + "POW"] || liga2att[p2 + "POW"] || 6;
             let adv1 = 0
             let adv2 = 0
-            if (pow1 > pow2) {
+            if (att1 > att2) {
                 adv1 = 3
-            } else if (pow2 > pow1) {
+            } else if (att2 > att1) {
                 adv2 = 2
             }
             let gol1 = Math.floor(Math.random() * 4) + adv1; // temos o cirstaione ronaldeopsa 910290838190
@@ -157,7 +157,7 @@ function tabela2() {
     return { txt2, ordenado2 };
 }
 
-function rodarJornada(lista, ptsObj, sgObj, forcaObj, ataquePOW, defesaPOW) {
+function rodarJornada(lista, ptsObj, sgObj, ataquePOW, defesaPOW) {
     let jajogou = {};
     lista.forEach(e => jajogou[e] = false);
     let baralhado = [...lista].sort(() => Math.random() - 0.5);
@@ -166,8 +166,8 @@ function rodarJornada(lista, ptsObj, sgObj, forcaObj, ataquePOW, defesaPOW) {
         let p1 = baralhado.pop();
         let p2 = baralhado.pop();
 
-        let gol1 = Math.floor(Math.random() * 4) + (ataquePOW[p1 + "POW"] > ataquePOW[p2 + "POW"] ? 2 : 0) - (defesaPOW[p2 + "POW"] > defesaPOW[p1 + "POW"] ? 2 : 0); // VANTAGANAAAAA
-        let gol2 = Math.floor(Math.random() * 4) + (ataquePOW[p2 + "POW"] > ataquePOW[p1 + "POW"] ? 1 : 0) - (defesaPOW[p1 + "POW"] > defesaPOW[p2 + "POW"] ? 1 : 0);;
+        let gol1 = Math.floor(Math.random() * 4) + (ataquePOW[p1 + "POW"] > ataquePOW[p2 + "POW"] ? 2 : 0) - (defesaPOW[p2 + "POW"] > defesaPOW[p1 + "POW"] ? 1 : 0); // VANTAGANAAAAA
+        let gol2 = Math.floor(Math.random() * 4) + (ataquePOW[p2 + "POW"] > ataquePOW[p1 + "POW"] ? 1 : 0);
 
         sgObj[p1] += (gol1 - gol2);
         sgObj[p2] += (gol2 - gol1);
@@ -188,25 +188,23 @@ function gerirSubidasEDescidas(ord1, ord2) {
     // 2. Processar Rebaixados (Liga 1111111 -> Liga 2)
     rebaixados.forEach(equipa => {
         let nome = equipa[0]; // Extra o nome da equipa
-        let novoatt = Math.max(4, (att[nome + "POW"] || 6) - 0.5);
-        let novodef = Math.max(4, (def[nome + "POW"] || 6) - 0.5);
-        let novoPow = Math.max(4, (POW[nome + "POW"] || 6) - 0.5);
-        delete pontos[nome]; delete saldogols[nome]; delete POW[nome + "POW"]; delete att[nome + "POW"]; delete def[nome + "POW"]; 
+        let novoatt = Math.max(4, (att[nome + "POW"] || 6) - 1);
+        let novodef = Math.max(4, (def[nome + "POW"] || 6) - 1);
+        delete pontos[nome]; delete saldogols[nome]; delete att[nome + "POW"]; delete def[nome + "POW"]; 
         
         
-        liga2Pontos[nome] = 0; liga2saldogols[nome] = 0; liga2POW[nome + "POW"] = novoPow; liga2att[nome + "POW"] = novoatt; liga2def[nome + "POW"] = novodef;
+        liga2Pontos[nome] = 0; liga2saldogols[nome] = 0; liga2att[nome + "POW"] = novoatt; liga2def[nome + "POW"] = novodef;
         console.log(`${nome} rebaixou.`);
     });
 
     // 3. Processar Promovidos (Liga 53 -> Liga 98)
     promovidos.forEach(equipa => {
         let nome = equipa[0]; // Extra o nome da equipa222223123123
-        let novoatt = Math.max(4, (liga2att[nome + "POW"] || 6) - 0.5);
-        let novodef = Math.max(4, (liga2def[nome + "POW"] || 6) - 0.5);
-        let novoPow = liga2POW[nome + "POW"] || 6;
-        delete liga2Pontos[nome]; delete liga2saldogols[nome]; delete liga2POW[nome + "POW"]; delete liga2att[nome + "POW"]; delete liga2def[nome + "POW"]; 
+        let novoatt = Math.max(4, (liga2att[nome + "POW"] || 6) + 10);
+        let novodef = Math.max(4, (liga2def[nome + "POW"] || 6) + 10);
+        delete liga2Pontos[nome]; delete liga2saldogols[nome]; delete liga2att[nome + "POW"]; delete liga2def[nome + "POW"]; 
         
-        pontos[nome] = 0; saldogols[nome] = 0; POW[nome + "POW"] = novoPow; att[nome + "POW"] = novoatt; def[nome + "POW"] = novodef;
+        pontos[nome] = 0; saldogols[nome] = 0; att[nome + "POW"] = novoatt; def[nome + "POW"] = novodef;
         console.log(`${nome} promoveu!`);
     });
 
@@ -219,15 +217,23 @@ function mercado() {
                 pontos[e] = 0;
                 saldogols[e] = 0;
                 if (Math.random() > 0.7) {
-                    let alteracao = 0;
+                    let alteracaoatt = 0;
+                    let alteracaodef = 0;
                     let rondonia = Math.random() * 5
-                    if (rondonia > 4.5) { alteracao = 5; }
-                    else if (rondonia > 3.5) { alteracao = 4; }
-                    else if (rondonia > 2.5) { alteracao = 3; }
-                    else if (rondonia * 5 > 1.5) { alteracao = 2; }
-                    else { alteracao = -2; }
-                    att[e + "POW"] = Math.max(1, att[e + "POW"] + alteracao);
-                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${att[e + "POW"]})`);
+                    if (rondonia > 4.5) { alteracaoatt = 5; }
+                    else if (rondonia > 3.5) { alteracaoatt = 4; }
+                    else if (rondonia > 2.5) { alteracaoatt = 3; }
+                    else if (rondonia * 5 > 1.5) { alteracaoatt = 2; }
+                    else { alteracaoatt = -5; }
+                    rondonia = Math.random() * 5
+                    if (rondonia > 4.5) { alteracaodef = 5; }
+                    else if (rondonia > 3.5) { alteracaodef = 4; }
+                    else if (rondonia > 2.5) { alteracaodef = 3; }
+                    else if (rondonia * 5 > 1.5) { alteracaodef = 2; }
+                    else { alteracaodef = -5; }
+                    att[e + "POW"] = Math.max(1, att[e + "POW"] + alteracaoatt);
+                    def[e + "POW"] = Math.max(1, def[e + "POW"] + alteracaodef);
+                    console.log(`Mercado: ${e} ${alteracaoatt + alteracaodef > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo ataque: ${att[e + "POW"]} defesa: ${def[e + "POW"]})`);
                 }
             });
 }
@@ -236,22 +242,30 @@ function mercado2() {
                 liga2Pontos[e] = 0;
                 liga2saldogols[e] = 0;
                 if (Math.random() > 0.7) {
-                    let alteracao = 0;
+                    let alteracaoatt = 0;
+                    let alteracaodef = 0;
                     let rondonia2 = Math.random() * 5
-                    if (rondonia2 > 4.5) { alteracao = 5; }
-                    else if (rondonia2 > 3.5) { alteracao = 4; }
-                    else if (rondonia2 > 2.5) { alteracao = 3; }
-                    else if (rondonia2 * 5 > 1.5) { alteracao = 2; }
-                    else { alteracao = -2; }
-                    liga2att[e + "POW"] = Math.max(1, liga2att[e + "POW"] + alteracao);
-                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${liga2att[e + "POW"]})`);
+                    if (rondonia2 > 4.5) { alteracaoatt = 5; }
+                    else if (rondonia2 > 3.5) { alteracaoatt = 4; }
+                    else if (rondonia2 > 2.5) { alteracaoatt = 3; }
+                    else if (rondonia2 * 5 > 1.5) { alteracaoatt = 2; }
+                    else { alteracaoatt = -5; }
+                    rondonia2 = Math.random() * 5
+                    if (rondonia2 > 4.5) { alteracaodef = 5; }
+                    else if (rondonia2 > 3.5) { alteracaodef = 4; }
+                    else if (rondonia2 > 2.5) { alteracaodef = 3; }
+                    else if (rondonia2 * 5 > 1.5) { alteracaodef = 2; }
+                    else { alteracaodef = -5; }
+                    liga2att[e + "POW"] = Math.max(1, liga2att[e + "POW"] + alteracaoatt);
+                    liga2def[e + "POW"] = Math.max(1, liga2def[e + "POW"] + alteracaodef);
+                    console.log(`Mercado: ${e} ${alteracaoatt + alteracaodef > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo ataque: ${liga2att[e + "POW"]} defesa: ${liga2def[e + "POW"]})`);
                 }
             });
 }
 function impossivel() {
     let champion = Object.entries(pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]]);
     let champ = champion[0][0]
-    if (POW[champ + "POW"] > 12) {
+    if (att[champ + "POW"] > 120) {
         console.log("IMPOSSÍVEL! O " + champion[0][0].toUpperCase() + " GANHOU A LIGA DOS CAMPEÕES!")
     }
 }
@@ -274,8 +288,8 @@ function iniciarTemporada() {
     liga2.forEach(e => { liga2Pontos[e] = 0; liga2saldogols[e] = 0; });
 
     for (let i = 0; i < 34; i++) {
-        rodarJornada(liga1, pontos, saldogols, POW, att, def);
-        rodarJornada(liga2, liga2Pontos, liga2saldogols, liga2POW, liga2att, liga2def);
+        rodarJornada(liga1, pontos, saldogols, att, def);
+        rodarJornada(liga2, liga2Pontos, liga2saldogols, liga2att, liga2def);
     }
     cupwin = taca();
     const { txt, ordenado } = tabela();
