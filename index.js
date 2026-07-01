@@ -220,17 +220,17 @@ function mercado() {
                     let alteracaoatt = 0;
                     let alteracaodef = 0;
                     let rondonia = Math.random() * 5
-                    if (rondonia > 4.5) { alteracaoatt = 5; }
-                    else if (rondonia > 3.5) { alteracaoatt = 4; }
-                    else if (rondonia > 2.5) { alteracaoatt = 3; }
-                    else if (rondonia * 5 > 1.5) { alteracaoatt = 2; }
-                    else { alteracaoatt = -55; }
+                    if (rondonia > 4.9) { alteracaoatt = 5; }
+                    else if (rondonia > 4.7) { alteracaoatt = 4; }
+                    else if (rondonia > 4.5) { alteracaoatt = 3; }
+                    else if (rondonia > 3.5) { alteracaoatt = 2; }
+                    else { alteracaoatt = -25; }
                     rondonia = Math.random() * 5
                     if (rondonia > 4.5) { alteracaodef = 5; }
                     else if (rondonia > 3.5) { alteracaodef = 4; }
                     else if (rondonia > 2.5) { alteracaodef = 3; }
                     else if (rondonia * 5 > 1.5) { alteracaodef = 2; }
-                    else { alteracaodef = -50; }
+                    else { alteracaodef = -10; }
                     att[e + "POW"] = Math.max(1, att[e + "POW"] + alteracaoatt);
                     def[e + "POW"] = Math.max(1, def[e + "POW"] + alteracaodef);
                     console.log(`Mercado: ${e} ${alteracaoatt + alteracaodef > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo ataque: ${att[e + "POW"]} defesa: ${def[e + "POW"]})`);
@@ -245,17 +245,17 @@ function mercado2() {
                     let alteracaoatt = 0;
                     let alteracaodef = 0;
                     let rondonia2 = Math.random() * 5
-                    if (rondonia2 > 4.5) { alteracaoatt = 5; }
-                    else if (rondonia2 > 3.5) { alteracaoatt = 4; }
-                    else if (rondonia2 > 2.5) { alteracaoatt = 3; }
-                    else if (rondonia2 * 5 > 1.5) { alteracaoatt = 2; }
-                    else { alteracaoatt = -70; }
+                    if (rondonia2 > 4.9) { alteracaoatt = 5; }
+                    else if (rondonia2 > 4.7) { alteracaoatt = 4; }
+                    else if (rondonia2 > 4.5) { alteracaoatt = 3; }
+                    else if (rondonia2 * 5 > 3.5) { alteracaoatt = 2; }
+                    else { alteracaoatt = -20; }
                     rondonia2 = Math.random() * 5
                     if (rondonia2 > 4.5) { alteracaodef = 5; }
                     else if (rondonia2 > 3.5) { alteracaodef = 4; }
                     else if (rondonia2 > 2.5) { alteracaodef = 3; }
-                    else if (rondonia2 * 5 > 1.5) { alteracaodef = 2; }
-                    else { alteracaodef = -55; }
+                    else if (rondonia2 > 1.5) { alteracaodef = 2; }
+                    else { alteracaodef = -15; }
                     liga2att[e + "POW"] = Math.max(1, liga2att[e + "POW"] + alteracaoatt);
                     liga2def[e + "POW"] = Math.max(1, liga2def[e + "POW"] + alteracaodef);
                     console.log(`Mercado: ${e} ${alteracaoatt + alteracaodef > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo ataque: ${liga2att[e + "POW"]} defesa: ${liga2def[e + "POW"]})`);
@@ -265,7 +265,7 @@ function mercado2() {
 function impossivel() {
     let champion = Object.entries(pontos).sort((a, b) => b[1] - a[1] || saldogols[b[0]] - saldogols[a[0]]);
     let champ = champion[0][0]
-    if (att[champ + "POW"] > 120) {
+    if (att[champ + "POW"] > 150) {
         console.log("IMPOSSÍVEL! O " + champion[0][0].toUpperCase() + " GANHOU A LIGA DOS CAMPEÕES!")
     }
 }
