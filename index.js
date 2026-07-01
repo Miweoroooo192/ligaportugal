@@ -6,7 +6,7 @@ Coisas para fazer:
 - aquela coisa de salvar o jogo (fazendo)
 - fazer uma versão de "football manager" (não feito)
 - fazer um "port" para c++ e rust (fazendo)
-- fazer uma sistema de jogos mais complexo (vou fazer em 2030 kkkk)
+- fazer uma sistema de jogos mais complexo (feito?)
 */
 
 
