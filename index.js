@@ -28,10 +28,14 @@ try {
 }
 */
 // POW inicial das equipas
+let att = { SLBenficaPOW: 85, SportingCPPOW: 81, FCPortoPOW: 82, BragaPOW: 77, GilVicentePOW: 75, FamalicaoPOW: 68, MoreirensePOW: 64, EstorilPOW: 65, VitoriaSCPOW: 70, AlvercaPOW: 63, AroucaPOW: 60, EstrelaAmadoraPOW: 66, CasaPiaPOW: 63, NacionalPOW: 59, SantaClaraPOW: 67, RioAvePOW: 64, TondelaPOW: 59, AVSPOW: 54 };
+let def = { SLBenficaPOW: 87, SportingCPPOW: 77, FCPortoPOW: 79, BragaPOW: 72, GilVicentePOW: 70, FamalicaoPOW: 70, MoreirensePOW: 65, EstorilPOW: 62, VitoriaSCPOW: 64, AlvercaPOW: 65, AroucaPOW: 69, EstrelaAmadoraPOW: 59, CasaPiaPOW: 49, NacionalPOW: 60, SantaClaraPOW: 59, RioAvePOW: 57, TondelaPOW: 56, AVSPOW: 46 };
 let POW = { SLBenficaPOW: 10, SportingCPPOW: 10, FCPortoPOW: 10, BragaPOW: 9, GilVicentePOW: 8, FamalicaoPOW: 7.5, MoreirensePOW: 7.5, EstorilPOW: 7, VitoriaSCPOW: 8.5, AlvercaPOW: 7, AroucaPOW: 7, EstrelaAmadoraPOW: 7, CasaPiaPOW: 6.5, NacionalPOW: 7.5, SantaClaraPOW: 6.5, RioAvePOW: 6.5, TondelaPOW: 6, AVSPOW: 5.5 };
 let pontos = { };
 let saldogols = { };
 
+let liga2att = { AcademicoViseuPOW: 65, MaritimoPOW: 62, VizelaPOW: 60, TorreensePOW: 64, VitoriaFCPOW: 59, UniaoLeiriaPOW: 63, MafraPOW: 51, LourosaPOW: 58, ChavesPOW: 50, FeirensePOW: 54, AcademicaPOW: 51, LeixoesPOW: 53, FelgueirasPOW: 49, PacosFerreiraPOW: 47, PenafielPOW: 49, FarensePOW: 49, OliveirensePOW: 47, PortimonensePOW: 47, BelenensesPOW: 44 };
+let liga2def = { AcademicoViseuPOW: 62, MaritimoPOW: 59, VizelaPOW: 59, TorreensePOW: 56, VitoriaFCPOW: 55, UniaoLeiriaPOW: 60, MafraPOW: 54, LourosaPOW: 55, ChavesPOW: 59, FeirensePOW: 56, AcademicaPOW: 49, LeixoesPOW: 49, FelgueirasPOW: 45, PacosFerreiraPOW: 47, PenafielPOW: 51, FarensePOW: 47, OliveirensePOW: 43, PortimonensePOW: 41, BelenensesPOW: 40 };
 let liga2POW = { AcademicoViseuPOW: 6.5, MaritimoPOW: 6.5, VizelaPOW: 6, TorreensePOW: 6, VitoriaFCPOW: 6, UniaoLeiriaPOW: 6, MafraPOW: 5, LourosaPOW: 5.5, ChavesPOW: 5.5, FeirensePOW: 5.5, AcademicaPOW: 4.5, LeixoesPOW: 5.5, FelgueirasPOW: 5, PacosFerreiraPOW: 5, PenafielPOW: 5, FarensePOW: 5, OliveirensePOW: 4.5, PortimonensePOW: 4.5, BelenensesPOW: 4 };
 let liga2Pontos = {};
 let liga2saldogols = {};
@@ -39,13 +43,13 @@ let cupwin = "";
 let textthing = "";
 
 // Inicializar tabelas da Liga 2
-Object.keys(liga2POW).forEach(k => {
+Object.keys(liga2Patt).forEach(k => {
     let nome = k.replace("POW", "");
     liga2Pontos[nome] = 0;
     liga2saldogols[nome] = 0;
 });
 // Inicializar tabelas da Liga 2
-Object.keys(POW).forEach(k => {
+Object.keys(att).forEach(k => {
     let nome = k.replace("POW", "");
     pontos[nome] = 0;
     saldogols[nome] = 0;
@@ -153,7 +157,7 @@ function tabela2() {
     return { txt2, ordenado2 };
 }
 
-function rodarJornada(lista, ptsObj, sgObj, forcaObj) {
+function rodarJornada(lista, ptsObj, sgObj, forcaObj, ataquePOW, defesaPOW) {
     let jajogou = {};
     lista.forEach(e => jajogou[e] = false);
     let baralhado = [...lista].sort(() => Math.random() - 0.5);
@@ -162,8 +166,8 @@ function rodarJornada(lista, ptsObj, sgObj, forcaObj) {
         let p1 = baralhado.pop();
         let p2 = baralhado.pop();
 
-        let gol1 = Math.floor(Math.random() * 4) + (forcaObj[p1 + "POW"] > forcaObj[p2 + "POW"] ? 2 : 0); // VANTAGANAAAAA
-        let gol2 = Math.floor(Math.random() * 4) + (forcaObj[p2 + "POW"] > forcaObj[p1 + "POW"] ? 1 : 0);
+        let gol1 = Math.floor(Math.random() * 4) + (ataquePOW[p1 + "POW"] > ataquePOW[p2 + "POW"] ? 2 : 0) - (defesaPOW[p2 + "POW"] > defesaPOW[p1 + "POW"] ? 2 : 0); // VANTAGANAAAAA
+        let gol2 = Math.floor(Math.random() * 4) + (ataquePOW[p2 + "POW"] > ataquePOW[p1 + "POW"] ? 1 : 0) - (defesaPOW[p1 + "POW"] > defesaPOW[p2 + "POW"] ? 1 : 0);;
 
         sgObj[p1] += (gol1 - gol2);
         sgObj[p2] += (gol2 - gol1);
@@ -254,8 +258,8 @@ function iniciarTemporada() {
     liga2.forEach(e => { liga2Pontos[e] = 0; liga2saldogols[e] = 0; });
 
     for (let i = 0; i < 34; i++) {
-        rodarJornada(liga1, pontos, saldogols, POW);
-        rodarJornada(liga2, liga2Pontos, liga2saldogols, liga2POW);
+        rodarJornada(liga1, pontos, saldogols, POW, att, def);
+        rodarJornada(liga2, liga2Pontos, liga2saldogols, liga2POW, liga2att, liga2def);
     }
     cupwin = taca();
     const { txt, ordenado } = tabela();
