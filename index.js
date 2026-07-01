@@ -188,21 +188,25 @@ function gerirSubidasEDescidas(ord1, ord2) {
     // 2. Processar Rebaixados (Liga 1111111 -> Liga 2)
     rebaixados.forEach(equipa => {
         let nome = equipa[0]; // Extra o nome da equipa
+        let novoatt = Math.max(4, (att[nome + "POW"] || 6) - 0.5);
+        let novodef = Math.max(4, (def[nome + "POW"] || 6) - 0.5);
         let novoPow = Math.max(4, (POW[nome + "POW"] || 6) - 0.5);
-        delete pontos[nome]; delete saldogols[nome]; delete POW[nome + "POW"];
+        delete pontos[nome]; delete saldogols[nome]; delete POW[nome + "POW"]; delete att[nome + "POW"]; delete def[nome + "POW"]; 
         
         
-        liga2Pontos[nome] = 0; liga2saldogols[nome] = 0; liga2POW[nome + "POW"] = novoPow;
+        liga2Pontos[nome] = 0; liga2saldogols[nome] = 0; liga2POW[nome + "POW"] = novoPow; liga2att[nome + "POW"] = novoatt; liga2def[nome + "POW"] = novodef;
         console.log(`${nome} rebaixou.`);
     });
 
     // 3. Processar Promovidos (Liga 53 -> Liga 98)
     promovidos.forEach(equipa => {
         let nome = equipa[0]; // Extra o nome da equipa222223123123
+        let novoatt = Math.max(4, (liga2att[nome + "POW"] || 6) - 0.5);
+        let novodef = Math.max(4, (liga2def[nome + "POW"] || 6) - 0.5);
         let novoPow = liga2POW[nome + "POW"] || 6;
-        delete liga2Pontos[nome]; delete liga2saldogols[nome]; delete liga2POW[nome + "POW"];
+        delete liga2Pontos[nome]; delete liga2saldogols[nome]; delete liga2POW[nome + "POW"]; delete liga2att[nome + "POW"]; delete liga2def[nome + "POW"]; 
         
-        pontos[nome] = 0; saldogols[nome] = 0; POW[nome + "POW"] = novoPow;
+        pontos[nome] = 0; saldogols[nome] = 0; POW[nome + "POW"] = novoPow; att[nome + "POW"] = novoatt; def[nome + "POW"] = novodef;
         console.log(`${nome} promoveu!`);
     });
 
@@ -215,9 +219,15 @@ function mercado() {
                 pontos[e] = 0;
                 saldogols[e] = 0;
                 if (Math.random() > 0.7) {
-                    let alteracao = Math.random() > 0.5 ? 0.5 : -0.5;
-                    POW[e + "POW"] = Math.max(1, POW[e + "POW"] + alteracao);
-                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${POW[e + "POW"]})`);
+                    let alteracao = 0;
+                    let rondonia = Math.random() * 5
+                    if (rondonia > 4.5) { alteracao = 5; }
+                    else if (rondonia > 3.5) { alteracao = 4; }
+                    else if (rondonia > 2.5) { alteracao = 3; }
+                    else if (rondonia * 5 > 1.5) { alteracao = 2; }
+                    else { alteracao = -2; }
+                    att[e + "POW"] = Math.max(1, att[e + "POW"] + alteracao);
+                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${att[e + "POW"]})`);
                 }
             });
 }
@@ -226,9 +236,15 @@ function mercado2() {
                 liga2Pontos[e] = 0;
                 liga2saldogols[e] = 0;
                 if (Math.random() > 0.7) {
-                    let alteracao = Math.random() > 0.5 ? 0.5 : -0.5;
-                    liga2POW[e + "POW"] = Math.max(1, liga2POW[e + "POW"] + alteracao);
-                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${liga2POW[e + "POW"]})`);
+                    let alteracao = 0;
+                    let rondonia2 = Math.random() * 5
+                    if (rondonia2 > 4.5) { alteracao = 5; }
+                    else if (rondonia2 > 3.5) { alteracao = 4; }
+                    else if (rondonia2 > 2.5) { alteracao = 3; }
+                    else if (rondonia2 * 5 > 1.5) { alteracao = 2; }
+                    else { alteracao = -2; }
+                    liga2att[e + "POW"] = Math.max(1, liga2att[e + "POW"] + alteracao);
+                    console.log(`Mercado: ${e} ${alteracao > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo POW: ${liga2att[e + "POW"]})`);
                 }
             });
 }
