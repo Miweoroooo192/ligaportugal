@@ -224,13 +224,13 @@ function mercado() {
                     else if (rondonia > 3.5) { alteracaoatt = 4; }
                     else if (rondonia > 2.5) { alteracaoatt = 3; }
                     else if (rondonia * 5 > 1.5) { alteracaoatt = 2; }
-                    else { alteracaoatt = -5; }
+                    else { alteracaoatt = -15; }
                     rondonia = Math.random() * 5
                     if (rondonia > 4.5) { alteracaodef = 5; }
                     else if (rondonia > 3.5) { alteracaodef = 4; }
                     else if (rondonia > 2.5) { alteracaodef = 3; }
                     else if (rondonia * 5 > 1.5) { alteracaodef = 2; }
-                    else { alteracaodef = -5; }
+                    else { alteracaodef = -10; }
                     att[e + "POW"] = Math.max(1, att[e + "POW"] + alteracaoatt);
                     def[e + "POW"] = Math.max(1, def[e + "POW"] + alteracaodef);
                     console.log(`Mercado: ${e} ${alteracaoatt + alteracaodef > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo ataque: ${att[e + "POW"]} defesa: ${def[e + "POW"]})`);
@@ -249,13 +249,13 @@ function mercado2() {
                     else if (rondonia2 > 3.5) { alteracaoatt = 4; }
                     else if (rondonia2 > 2.5) { alteracaoatt = 3; }
                     else if (rondonia2 * 5 > 1.5) { alteracaoatt = 2; }
-                    else { alteracaoatt = -5; }
+                    else { alteracaoatt = -20; }
                     rondonia2 = Math.random() * 5
                     if (rondonia2 > 4.5) { alteracaodef = 5; }
                     else if (rondonia2 > 3.5) { alteracaodef = 4; }
                     else if (rondonia2 > 2.5) { alteracaodef = 3; }
                     else if (rondonia2 * 5 > 1.5) { alteracaodef = 2; }
-                    else { alteracaodef = -5; }
+                    else { alteracaodef = -15; }
                     liga2att[e + "POW"] = Math.max(1, liga2att[e + "POW"] + alteracaoatt);
                     liga2def[e + "POW"] = Math.max(1, liga2def[e + "POW"] + alteracaodef);
                     console.log(`Mercado: ${e} ${alteracaoatt + alteracaodef > 0 ? 'reforçou-se' : 'enfraqueceu-se'} (Novo ataque: ${liga2att[e + "POW"]} defesa: ${liga2def[e + "POW"]})`);
