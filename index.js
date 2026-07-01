@@ -43,12 +43,12 @@ let cupwin = "";
 let textthing = "";
 
 // Inicializar tabelas da Liga 2
-Object.keys(liga2Patt).forEach(k => {
+Object.keys(liga2att).forEach(k => {
     let nome = k.replace("POW", "");
     liga2Pontos[nome] = 0;
     liga2saldogols[nome] = 0;
 });
-// Inicializar tabelas da Liga 2
+// Inicializar tabelas da Liga 1
 Object.keys(att).forEach(k => {
     let nome = k.replace("POW", "");
     pontos[nome] = 0;
