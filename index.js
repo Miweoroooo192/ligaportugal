@@ -1,4 +1,4 @@
-/* SIMULADOR DA LIGA PORTUGUESA v1.5
+/* SIMULADOR DA LIGA PORTUGUESA v1.7
 - podes simular jogos
 - podes ver a evolução dos clubes
 - podes mudar o código
