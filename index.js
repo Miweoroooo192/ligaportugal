@@ -1,9 +1,9 @@
-/* SIMULADOR DA LIGA PORTUGUESA v1.7
+/* SIMULADOR DA LIGA PORTUGUESA v1.7.1
 - podes simular jogos
 - podes ver a evolução dos clubes
 - podes mudar o código
 Coisas para fazer:
-- aquela coisa de salvar o jogo (fazendo)
+- aquela coisa de salvar o jogo (provavelmente cancelado)
 - fazer uma versão de "football manager" (não feito)
 - fazer um "port" para c++ e rust (fazendo)
 - fazer uma sistema de jogos mais complexo (feito?)
@@ -44,8 +44,8 @@ let att = {
   NacionalPOW: 59,
   SantaClaraPOW: 67,
   RioAvePOW: 64,
-  TondelaPOW: 59,
-  AVSPOW: 54,
+  AcademicoViseuPOW: 65,
+  MaritimoPOW: 62,
 };
 let def = {
   SLBenficaPOW: 87,
@@ -64,16 +64,16 @@ let def = {
   NacionalPOW: 60,
   SantaClaraPOW: 59,
   RioAvePOW: 57,
-  TondelaPOW: 56,
-  AVSPOW: 46,
+  AcademicoViseuPOW: 62,
+  MaritimoPOW: 59,
 };
 
 let pontos = {};
 let saldogols = {};
 
 let liga2att = {
-  AcademicoViseuPOW: 65,
-  MaritimoPOW: 62,
+  TondelaPOW: 59,
+  AVSPOW: 54,
   VizelaPOW: 60,
   TorreensePOW: 64,
   VitoriaFCPOW: 59,
@@ -93,8 +93,8 @@ let liga2att = {
   BelenensesPOW: 44,
 };
 let liga2def = {
-  AcademicoViseuPOW: 62,
-  MaritimoPOW: 59,
+  TondelaPOW: 56,
+  AVSPOW: 46,
   VizelaPOW: 59,
   TorreensePOW: 56,
   VitoriaFCPOW: 55,
@@ -134,7 +134,7 @@ Object.keys(att).forEach((k) => {
 
 let liga1 = Object.keys(pontos);
 let liga2 = Object.keys(liga2Pontos);
-let ano = 2025;
+let ano = 2026;
 
 function taca() {
   console.log(`\n--- TAÇA DE PORTUGAL ${ano}/${ano + 1} ---\n`);
@@ -224,8 +224,8 @@ function tabela() {
   ordenado.forEach((equipa, i) => {
     let status = "";
     if (i == 0) status = "[CAMPEÃO/UCL]"; // Marca o campeão
-    if (i == 1) status = "[Qualificação UCL]"; // Marca contra Real Madrid
-    if (i == 2) status = "[UEL]"; // Marca contra Real Madrid
+    if (i == 1) status = "[UCL]"; // Marca contra Real Madrid
+    if (i == 2) status = "[Qualificação UCL]"; // Marca contra Real Madrid
     if (i == 3) status = "[Qualificação UEL]"; // Marca contra Real Madrid
     if (i == 4) status = "[Qualificação UECL]"; // Marca contra Real Madrid
     if (cupwin == equipa[0] && i >= 2) status = "[UEL]";
